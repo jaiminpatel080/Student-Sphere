@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+   <div class="col-lg-12">
+      <div class="card">
+         <div class="card-header">
+            <h5 class="card-title">Add Department</h5>
+         </div>
+         {% include 'includes/message.html' %}
+         <div class="card-body">
+            <form method="post" action="{% url 'add_academicyear' %}">
+               {% csrf_token %}
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Academic Year Start</label>
+                  <div class="col-md-4">
+                     <input type="date" class="form-control form-control-lg datetimepicker" placeholder="DD/MM/YYYY" name="academic_start" required>
+                  </div>
+                  <label class="col-form-label col-md-2">Academic Year End</label>
+                  <div class="col-md-4">
+                     <input type="date" class="form-control form-control-lg datetimepicker" placeholder="DD/MM/YYYY" name="academic_end" required>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Add Academic Year</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}

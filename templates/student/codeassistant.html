@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+  <div class="col-lg-12">
+     <div class="card">
+        <div class="card-header">
+           <h5 class="card-title">CodeLess - Your Personalized Code Assistant</h5>
+        </div>
+        <div class="card-body">
+{% if action is None %}
+  <form method="post" action="?action=get_reply">
+    {% csrf_token %}
+    <div class="form-group row">
+      <label class="col-form-label col-md-2">Enter your prompt:</label>
+      <div class="col-md-10">
+         <input type="text" class="form-control form-control-lg" name="prompt" required>
+      </div>
+   </div>
+   <div class="col-12">
+    <button type="submit" class="btn btn-primary">Get Reply</button>
+  </div>
+  </form>
+{% else %}
+<form action="{% url 'ca_regenerate' %}">
+  <div class="form-group row">
+    <label class="col-form-label col-md-2">Enter your prompt:</label>
+    <div class="col-md-10">
+       <input type="text" class="form-control form-control-lg" value="{{user_prompt}}" readonly>
+    </div>
+ </div>
+ <div class="form-group row">
+  <label class="col-form-label col-md-2">Answer:</label>
+  <div class="col-md-10">
+    <textarea class="form-control form-control-lg" style="width: 740px; height: 400px; resize: vertical;" readonly>{{response}}</textarea>
+  </div>
+ </div>
+ <div class="col-12">
+  <button type="submit" class="btn btn-primary">Get Another Response</button>
+</div>
+</form>
+{% endif %}
+</body>
+{% endblock %}

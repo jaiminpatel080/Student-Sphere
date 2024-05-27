@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+   <div class="col-lg-12">
+      <div class="card">
+         <div class="card-header">
+            <h5 class="card-title">Add Student Details</h5>
+         </div>
+         {% include 'includes/message.html' %}
+         <div class="card-body">
+            <form method="post" action="{% url 'add_student' %}" enctype="multipart/form-data">
+               {% csrf_token %}
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">First Name</label>
+                  <div class="col-md-4">
+                     <input type="text" class="form-control form-control-lg" name="first_name" required>
+                  </div>
+                  <label class="col-form-label col-md-2">Last Name</label>
+                  <div class="col-md-4">
+                     <input type="text" class="form-control form-control-lg" name="last_name" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Select Gender</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="gender" required>
+                        <option>Select Gender</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Others">Others</option>
+                     </select>
+                  </div>
+                  <label class="col-form-label col-md-2">Date of Birth</label>
+                  <div class="col-md-4">
+                     <input type="date" class="form-control form-control-lg datetimepicker" placeholder="DD/MM/YYYY" name="dob" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Department</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="department_id" required>
+                        <option>Select Department</option>
+                        {% for i in department %}
+                        <option value="{{i.id}}">{{i.name}}</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+                  <label class="col-form-label col-md-2">Academic Year</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="academic_year_id" required>
+                        <option>Select Academic Year</option>
+                        {% for a in academic_year %}
+                        <option value="{{a.id}}">{{a.academic_start}} to {{a.academic_end}}</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Email-Id</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control form-control-lg" name="email" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Username</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control form-control-lg" name="username" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Password</label>
+                  <div class="col-md-10">
+                     <input type="password" class="form-control form-control-lg" name="password" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Address</label>
+                  <div class="col-md-10">
+                     <textarea class="form-control form-control-lg" name="address" required></textarea>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Upload Student Image</label>
+                  <div class="col-md-10">
+                     <input type="file" class="form-control form-control-lg" name="profile_pic" required>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Add Student</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

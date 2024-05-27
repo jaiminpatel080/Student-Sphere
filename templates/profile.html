@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="card">
+								<div class="card-header">
+									<h5 class="card-title">Update Profile</h5>
+								</div>
+
+								{% if messages %}
+								  {% for message in messages %}
+								    {% if message.tags == "error" %}
+										<div class="alert alert-secondary alert-dismissible fade show" role="alert">
+											{{ message }}
+											<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+										</div>
+								    {% endif %}
+								  {% endfor %}
+								{% endif %}
+
+								{% if messages %}
+								  {% for message in messages %}
+								    {% if message.tags == "success" %}
+										<div class="alert alert-secondary alert-dismissible fade show" role="alert">
+											{{ message }}
+											<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+										</div>
+								    {% endif %}
+								  {% endfor %}
+								{% endif %}
+
+								<div class="card-body">
+									<form method="post" action="{% url 'profile_update' %}" enctype="multipart/form-data">
+										{% csrf_token %}
+										<div class="form-group row">
+											<label class="col-form-label col-md-2">Profile Picture</label>
+											<div class="col-md-10">
+												<input type="file" class="form-control form-control-lg" name="profile_pic">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-2">First Name</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control form-control-lg" name="first_name" value="{{user.first_name}}">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-2">Last Name</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control form-control-lg" name="last_name" value="{{user.last_name}}">
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-2">Email-Id</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control form-control-lg" name="email" value="{{user.email}}" readonly>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-2">Username</label>
+											<div class="col-md-10">
+												<input type="text" class="form-control form-control-lg" name="username" value="{{user.username}}" readonly>
+											</div>
+										</div>
+										<div class="form-group row">
+											<label class="col-form-label col-md-2">Password</label>
+											<div class="col-md-10">
+												<input type="password" class="form-control form-control-lg" name="password" placeholder="Fill only if you want to update password.">
+											</div>
+										</div>
+										<div class="col-12">
+											<button type="submit" class="btn btn-primary">Update Now</button>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+{% endblock %}

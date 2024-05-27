@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+   <div class="col-lg-12">
+      <div class="card">
+         <div class="card-body">
+             <div class="page-header">
+         <div class="row align-items-center">
+             <div class="col">
+                 <h3 class="page-title">Apply for Leave</h3>
+             </div>
+             <div class="col-auto text-end float-end ms-auto download-grp">
+                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#leave_status">
+                     Leave Status
+                 </button>
+             </div>
+         </div>
+             </div>
+         {% include 'includes/message.html' %}
+            <form method="post" action="{% url 'staff_apply_leave_save' %}">
+               {% csrf_token %}
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Leave Date</label>
+                  <div class="col-md-4">
+                     <input type="date" class="form-control form-control-lg datetimepicker" placeholder="DD/MM/YYYY" name="leave_date" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Reason for Leave</label>
+                  <div class="col-md-10">
+                     <textarea class="form-control form-control-lg" name="reason" required></textarea>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Apply for Leave</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!--applied leave status-->
+<div class="modal fade" id="leave_status" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Leave Application Status</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table border-0 star-student table-hover table-center mb-0 table-striped">
+                <thead>
+                <tr>
+                    <th style="width:25%">Leave Date</th>
+                    <th style="width:60%">Reason</th>
+                    <th style="width:15%" class="text-end">Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in staff_leave_status %}
+                <tr>
+                    <td>{{i.leave_date}}</td>
+                    <td>{{i.reason}}</td>
+                    {% if i.status == 2 %}
+                    <td class="text-end"><span class="badge badge-pill badge-danger">Declined</span></td>
+                    {% elif i.status == 1 %}
+                    <td class="text-end"><span class="badge badge-pill badge-success">Approved</span></td>
+                    {% else %}
+                    <td class="text-end"><span class="badge badge-pill badge-info">Pending</span></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+   <div class="col-sm-12">
+      <div class="card card-table comman-shadow">
+         <div class="card-body">
+            <div class="page-header">
+               <div class="row align-items-center">
+                  <div class="col">
+                     <h3 class="page-title">Student Feedback</h3>
+                  </div>
+               </div>
+            </div>
+            {% include 'includes/message.html' %}
+            <div class="table-responsive">
+               <table id="table_id" class="table border-0 star-student table-hover table-center mb-0 table-striped">
+                  <thead class="student-thread">
+                     <tr>
+                        <th>ID</th>
+                        <th>Student Name</th>
+                        <th>Feedback</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+
+                  {% for i in feedback %}
+                     <tr>
+                        <td>{{i.id}}</td>
+                        <td>
+                           <h2 class="table-avatar">
+                              <a href="student-details.html" class="avatar avatar-sm me-2"><img class="avatar-img rounded-circle" src="/{{i.student_id.admin.profile_pic}}"></a>
+                              <a href="student-details.html">{{i.student_id.admin.first_name}}&nbsp;{{i.student_id.admin.last_name}}</a>
+                           </h2>
+                        </td>
+                        <td>{{i.feedback}}</td>
+                        <td>{{i.created_at}}</td>
+                        <td>
+                            {% if i.feedback_reply == "" %}
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staff_reply-{{forloop.counter}}">Reply</button>
+                            {% else %}
+                            {{i.feedback_reply}}
+                            {% endif %}
+                        </td>
+                     </tr>
+
+                  {% endfor %}
+
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<!--send feedback reply modal-->
+{% for i in feedback %}
+<div class="modal fade" id="staff_reply-{{forloop.counter}}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5">Reply to {{i.student_id.admin.first_name}} {{i.student_id.admin.last_name}}</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form method="post" action="{% url 'student_feedback_reply' %}">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                  <input type="text" class="form-control" name="feedback_id" value="{{i.id}}" hidden>
+                  <textarea class="form-control" name="feedback_reply" placeholder="Enter your reply." required></textarea>
+              </div>
+              <div class="col-auto text-end float-end ms-auto">
+                  <button type="submit" class="btn btn-primary">Send Reply</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}

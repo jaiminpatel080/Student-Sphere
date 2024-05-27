@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+   <div class="col-lg-12">
+      <div class="card">
+         <div class="card-header">
+            <h5 class="card-title">Take Attendance</h5>
+         </div>
+         {% include 'includes/message.html' %}
+         <div class="card-body">
+
+            {% if action is None %}
+
+            <form method="post" action="?action=get_student">
+               {% csrf_token %}
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Subject</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="subject_id" required>
+                        <option>Select Subject</option>
+                        {% for i in subject %}
+                        <option value="{{i.id}}">{{i.name}}</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Academic Year</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="academic_year_id" required>
+                        <option>Select Academic Year</option>
+                        {% for i in academic_year %}
+                        <option value="{{i.id}}">{{i.academic_start}} to {{i.academic_end}}</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Fetch Student List</button>
+               </div>
+            </form>
+
+            {% else %}
+
+            <form method="post" action="{% url 'staff_save_attendance' %}">
+               {% csrf_token %}
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Subject</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="subject_id">
+                        <option value="{{get_subject.id}}">{{get_subject}}</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Academic Year</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="academic_year_id">
+                        <option value="{{get_academic_year.id}}">{{get_academic_year}}</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Attendance Date</label>
+                  <div class="col-md-4">
+                     <input type="date" class="form-control form-control-lg" name="attendance_date" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-4"><b>Tick Present Students</b></label>
+                  {% for i in students %}
+                  <div class="col-md-11">
+                     <input type="checkbox" class="form-check-input" id="exampleCheck1"  value={{i.id}} name="student_id">
+                     <label class="form-check-label" for="exampleCheck1">{{i.admin.first_name}} {{i.admin.last_name}}</label>
+                  </div>
+                  {% endfor %}
+               </div>
+               <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+               </div>
+            </form>
+
+            {% endif %}
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}

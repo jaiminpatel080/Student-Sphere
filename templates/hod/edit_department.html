@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+   <div class="col-lg-12">
+      <div class="card">
+         <div class="card-header">
+            <h5 class="card-title">Edit Department</h5>
+         </div>
+         {% include 'includes/message.html' %}
+         <div class="card-body">
+            <form method="post" action="{% url 'update_department' %}" enctype="multipart/form-data">
+               {% csrf_token %}
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Department Name</label>
+                  <div class="col-md-4">
+                     <input type="text" class="form-control form-control-lg" name="department_name" value="{{department.name}}">
+                     <input type="text" class="form-control form-control-lg" name="department_id" value="{{department.id}}" hidden>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Update Department</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}

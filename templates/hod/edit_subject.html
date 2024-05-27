@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+   <div class="col-lg-12">
+      <div class="card">
+         <div class="card-header">
+            <h5 class="card-title">Edit Subject Details</h5>
+         </div>
+         {% include 'includes/message.html' %}
+         <div class="card-body">
+            <form method="post" action="{% url 'update_subject' %}">
+               {% csrf_token %}
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Subject Name</label>
+                  <div class="col-md-4">
+                     <input type="text" name="subject_id" value="{% for i in subject %}{{i.id}}{% endfor %}" hidden>
+                     <input type="text" class="form-control form-control-lg" name="subject_name" value="{% for i in subject %}{{i.name}}{% endfor %}" required>
+                  </div>
+                  <label class="col-form-label col-md-2">Department</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="department_id">
+                        {% for i in subject %}<option value="{{i.department.id}}">{{i.department.name}}</option>{% endfor %}
+                        {% for i in department %}
+                        <option value="{{i.id}}">{{i.name}}</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Staff</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="staff_id">
+                        {% for i in subject %}<option value="{{i.staff.id}}">{{i.staff.admin.first_name}}&nbsp;{{i.staff.admin.last_name}}</option>{% endfor %}
+                        {% for i in staff %}
+                        <option value="{{i.id}}">{{i.admin.first_name}}&nbsp;{{i.admin.last_name}}</option>
+                        {% endfor %}
+                     </select>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Update Subject</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}

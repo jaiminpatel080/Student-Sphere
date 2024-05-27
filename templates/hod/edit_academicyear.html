@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+   <div class="col-lg-12">
+      <div class="card">
+         <div class="card-header">
+            <h5 class="card-title">Edit Academic Year</h5>
+         </div>
+         {% include 'includes/message.html' %}
+         <div class="card-body">
+            <form method="post" action="{% url 'update_academicyear' %}">
+               {% csrf_token %}
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Academic Year Start</label>
+                  <div class="col-md-4">
+                     <input type="text" name="academic_id" value="{% for i in academic_year %}{{i.id}}{% endfor %}" hidden>
+                     <input type="date" class="form-control form-control-lg datetimepicker" name="academic_start" value="{% for i in academic_year %}{{i.academic_start}}{% endfor %}" required>
+                  </div>
+                  <label class="col-form-label col-md-2">Academic Year End</label>
+                  <div class="col-md-4">
+                     <input type="date" class="form-control form-control-lg datetimepicker" name="academic_end" value="{% for i in academic_year %}{{i.academic_end}}{% endfor %}" required>
+                  </div>
+               </div>
+               <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Update Academic Year</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+{% endblock %}

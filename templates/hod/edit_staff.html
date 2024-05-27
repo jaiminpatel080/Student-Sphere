@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+   <div class="col-lg-12">
+      <div class="card">
+         <div class="card-header">
+            <h5 class="card-title">Edit Staff Details</h5>
+         </div>
+         {% include 'includes/message.html' %}
+         <div class="card-body">
+            <form method="post" action="{% url 'update_staff' %}" enctype="multipart/form-data">
+               {% csrf_token %}
+               <div class="form-group row">
+                  <input type="text" class="form-control form-control-lg" name="staff_id" value="{% for i in staff %}{{i.admin.id}}{% endfor %}" hidden>
+                  <label class="col-form-label col-md-2">First Name</label>
+                  <div class="col-md-4">
+                     <input type="text" class="form-control form-control-lg" name="first_name" value="{% for i in staff %}{{i.admin.first_name}}{% endfor %}" required>
+                  </div>
+                  <label class="col-form-label col-md-2">Last Name</label>
+                  <div class="col-md-4">
+                     <input type="text" class="form-control form-control-lg" name="last_name" value="{% for i in staff %}{{i.admin.last_name}}{% endfor %}" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Select Gender</label>
+                  <div class="col-md-4">
+                     <select class="form-control form-control-lg select" name="gender" required>
+                        {% for i in staff %}<option value="{{i.gender}}">{{i.gender}}</option>{% endfor %}
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Others">Others</option>
+                     </select>
+                  </div>
+                  <label class="col-form-label col-md-2">Date of Birth</label>
+                  <div class="col-md-4">
+                     <input type="date" class="form-control form-control-lg" placeholder="DD/MM/YYYY" name="dob" value="{% for i in staff %}{{i.dob}}{% endfor %}">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Email-Id</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control form-control-lg" name="email" value="{% for i in staff %}{{i.admin.email}}{% endfor %}" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Username</label>
+                  <div class="col-md-10">
+                     <input type="text" class="form-control form-control-lg" name="username" value="{% for i in staff %}{{i.admin.username}}{% endfor %}" required>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Password</label>
+                  <div class="col-md-10">
+                     <input type="password" class="form-control form-control-lg" name="password" placeholder="Fill only if you want to update password.">
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Address</label>
+                  <div class="col-md-10">
+                     <textarea class="form-control form-control-lg" name="address" required>{% for i in staff %}{{i.address}}{% endfor %}</textarea>
+                  </div>
+               </div>
+               <div class="form-group row">
+                  <label class="col-form-label col-md-2">Upload Staff Image</label>
+                  <div class="col-md-10">
+                     <input type="file" class="form-control form-control-lg" name="profile_pic">
+                  </div>
+               </div>
+               <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Update Staff</button>
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock %}
